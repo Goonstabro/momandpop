@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Mom and Pop's Pizza - Receipt</title>
+  <link rel="stylesheet" href="style.css">
+
+  <script>
+    // Shows the payment section when Pay is clicked
+    function showPaymentSection() {
+      const payment = document.getElementById("payment-section");
+      const payButton = document.getElementById("pay-button");
+
+      payment.style.display = "block";
+      payButton.disabled = true;   
+    }
+  </script>
+</head>
+
+<body class="receipt-page">
+
+  <div class="receipt-container">
+    <h1>Receipt</h1>
+
+    <!-- Marcelo:
+         Fill this with the actual items, quantities, and prices
+         using data from Marsh's cart on the menu page.
+    -->
+    <div id="receipt-items">
+      <!-- Example structure Marcelo can follow:
+           <p>Classic Pepperoni x2 — $25.98</p>
+           <p>Soda x1 — $2.49</p>
+      -->
+      <p>No items yet. (Placeholder for now.)</p>
+    </div>
+
+    <!-- Marcelo: replace this with the real total -->
+    <h2>Total: $0.00</h2>
+
+    <!-- Pay button: reveals the card input area -->
+    <button id="pay-button" onclick="showPaymentSection()">Pay</button>
+
+    <!-- Hidden until user clicks Pay -->
+    <div id="payment-section" style="display:none; margin-top:24px; text-align:left;">
+
+      <!-- Marcelo:
+           Use these fields for validation 
+           The IDs are here for your JS.
+      -->
+      <h3>Payment Details</h3>
+
+      <label for="card-name">Name on Card</label>
+      <input type="text" id="card-name">
+
+      <label for="card-number">Card Number</label>
+      <input type="text" id="card-number" maxlength="19">
+
+      <div style="display:flex; gap:10px;">
+        <div style="flex:1;">
+          <label for="card-exp">Expiry (MM/YY)</label>
+          <input type="text" id="card-exp" placeholder="MM/YY">
+        </div>
+        <div style="flex:1;">
+          <label for="card-cvv">CVV</label>
+          <input type="password" id="card-cvv" maxlength="4">
+        </div>
+      </div>
+
+      <button style="margin-top:18px; width:100%;">Confirm Payment</button>
+    </div>
+
+    <button onclick="location.href='index.html'" style="margin-top:24px;">
+      Return Home
+    </button>
+  </div>
+
+</body>
+</html>
