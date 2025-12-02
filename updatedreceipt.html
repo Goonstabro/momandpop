@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Mom and Pop's Pizza - Receipt</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="receipt-page">
+
+  <div class="receipt-container">
+    <div id="checkout-screen">
+    <h1>Checkout</h1>
+
+    <!-- Marcelo:
+         Fill this with the actual items, quantities, and prices
+         using data from Marsh's cart on the menu page.
+    -->
+    <div id="receipt-items">
+      <!-- Example structure Marcelo can follow:
+           <p>Classic Pepperoni x2 — $25.98</p>
+           <p>Soda x1 — $2.49</p>
+      -->
+      <p>Classic Pepperoni x3 — $38.97</p>
+      <p>Cheese Lover x1 — $11.49</p>
+    </div>
+
+    <!-- Marcelo: replace this with the real total -->
+    <h2>Total: $50.46</h2>
+    <!-- Pay button: reveals the card input area -->
+    <button id="pay-button" onclick="showPaymentSection()">Pay</button>
+
+    <!-- Hidden until user clicks Pay -->
+    <div id="payment-section" style="display:none; margin-top:24px; text-align:left;">
+
+      <!-- Marcelo:
+           Use these fields for validation 
+           The IDs are here for your JS.
+      -->
+      <h3>Payment Details</h3>
+
+    <div id="payment-errors" style="color:red;" margin-bottom:10px;></div>
+
+      <label for="card-name">Name on Card</label>
+      <input type="text" id="card-name">
+
+      <label for="card-number">Card Number</label>
+      <input type="text" id="card-number" maxlength="19">
+
+      <div style="display:flex; gap:10px;">
+        <div style="flex:1;">
+          <label for="card-exp">Expiry (MM/YY)</label>
+          <input type="text" id="card-exp" placeholder="MM/YY">
+        </div>
+        <div style="flex:1;">
+          <label for="card-cvv">CVV</label>
+          <input type="password" id="card-cvv" maxlength="4">
+        </div>
+      </div>
+
+      <button id="confirm-payment" style="margin-top:18px; width:100%;" onclick="validatePayment(event)">Confirm Payment</button>
+    </div>
+
+    <button onclick="location.href='index.html'" style="margin-top:24px;">
+      Return Home
+    </button>
+  </div>
+
+  <div id = "final-receipt" style="display:none; text-align:left">
+    <h2 style="text-align:center; margin-bottom:8px;">Mom's and Pop's Pizzeria</h2>
+
+    <p style="text-align:center; margin:0;">680 Arnston Rd ste. 2031, Marietta, GA 30060<br>
+    (770) 555-1212</p>
+
+    <hr style="margin:12px 0;">
+
+    <p><strong>Items:</strong></p>
+
+    <div class="receipt-line">
+      <span>Classic Pepperoni x3</span>
+      <span>$38.97</span>
+    </div>
+
+    <div class="receipt-line">
+      <span>Cheese Lover x1</span>
+      <span>$11.49</span>
+    </div>
+
+    <br>
+
+    <div class="receipt-line">
+      <span>Tax (7%):</span>
+      <span>$3.53</span>
+    </div>
+
+    <hr style="margin:12px 0;">
+
+    <div class="receipt-line" style="font-weight:bold;">
+      <span>TOTAL</span>
+      <span>$53.99</span>
+    </div>
+
+    <br>
+
+    <p>
+      Payment: Visa •••• 1234<br><br>
+      Signature: __________________________
+    </p>
+
+    <button onclick ="location.href='index.html'" style="margin-top:16px; width:100%;">
+      Return Home
+    </button>
+  </div>
+
+
+ <script>
+    // Show the payment section when Pay is clicked
+    function showPaymentSection() {
+      const payment = document.getElementById("payment-section");
+      const payButton = document.getElementById("pay-button");
+
+      payment.style.display = "block";
+      payButton.style.display = "none";
+      payButton.disabled = true;
+    }
+
+    // Validate payment fields when Confirm Payment is clicked
+    function validatePayment(event) {
+      // Just in case this is inside a form later
+      if (event && event.preventDefault) {
+        event.preventDefault();
+      }
+
+      const errorBox = document.getElementById("payment-errors");
+      errorBox.innerHTML = ""; // clear old errors
+      const errors = [];
+
+      const name = document.getElementById("card-name").value.trim();
+      const numberRaw = document.getElementById("card-number").value.replace(/\s+/g, "");
+      const exp = document.getElementById("card-exp").value.trim();
+      const cvv = document.getElementById("card-cvv").value.trim();
+
+      // Name check
+      if (name.length === 0) {
+        errors.push("Name on card is required.");
+      }
+
+      // Card number: must be exactly 16 digits
+      if (!/^\d{16}$/.test(numberRaw)) {
+        errors.push("Card number must be exactly 16 digits (numbers only).");
+      }
+
+      // Expiry: MM/YY and valid month
+      const expMatch = exp.match(/^(\d{2})\/(\d{2})$/);
+      if (!expMatch) {
+        errors.push("Expiry must be in MM/YY format (MM/YY).");
+      } else {
+        const month = parseInt(expMatch[1], 10);
+        if (month < 1 || month > 12) {
+          errors.push("Expiry month must be between 01 and 12.");
+        }
+      }
+
+      // CVV: 3–4 digits
+      if (!/^\d{3,4}$/.test(cvv)) {
+        errors.push("CVV must be 3 or 4 digits.");
+      }
+
+      // If any errors, show them and stop
+      if (errors.length > 0) {
+        errorBox.innerHTML = errors.join("<br>");
+        return;
+      }
+
+      // If everything is valid
+      alert("Payment successful! Thank you for your purchase.");
+      document.getElementById("checkout-screen").style.display = "none";
+      document.getElementById("final-receipt").style.display = "block";
+    }
+  </script>
+</body>
+</html>
