@@ -20,12 +20,10 @@
            <p>Classic Pepperoni x2 — $25.98</p>
            <p>Soda x1 — $2.49</p>
       -->
-      <p>Classic Pepperoni x3 — $38.97</p>
-      <p>Cheese Lover x1 — $11.49</p>
     </div>
 
     <!-- Marcelo: replace this with the real total -->
-    <h2>Total: $50.46</h2>
+    <h2 id="receipt-total">Total: $0.00</h2>
     <!-- Pay button: reveals the card input area -->
     <button id="pay-button" onclick="showPaymentSection()">Pay</button>
 
@@ -75,17 +73,14 @@
 
     <p><strong>Items:</strong></p>
 
-    <div class="receipt-line">
-      <span>Classic Pepperoni x3</span>
-      <span>$38.97</span>
-    </div>
-
-    <div class="receipt-line">
-      <span>Cheese Lover x1</span>
-      <span>$11.49</span>
-    </div>
+    <div id="final-items"></div>
 
     <br>
+
+    <div class="receipt-line">
+      <span>Subtotal:</span>
+      <span>$50.46</span>
+    </div>
 
     <div class="receipt-line">
       <span>Tax (7%):</span>
@@ -107,7 +102,7 @@
     </p>
 
     <br>
-
+    
     <p style="text-align:center; font-style:italic;">
       Thank you for ordering with Mom and Pop's Pizzeria!
     </p>
@@ -128,6 +123,71 @@
       payButton.style.display = "none";
       payButton.disabled = true;
     }
+
+        document.addEventListener("DOMContentLoaded", () => {
+      // Try to load cart from localStorage
+      const savedCartJSON = localStorage.getItem("savedCart");
+
+      let cart;
+
+      if (savedCartJSON) {
+        try {
+          cart = JSON.parse(savedCartJSON);
+        } catch (e) {
+          console.warn("Could not parse savedCart JSON, using demo cart instead.");
+        }
+      }
+
+      // Fallback demo cart (your VS items) if nothing in localStorage
+      if (!cart || !Array.isArray(cart) || cart.length === 0) {
+        cart = [
+          { name: "Classic Pepperoni", quantity: 3, price: 12.99 },
+          { name: "Cheese Lover", quantity: 1, price: 11.49 }
+        ];
+      }
+
+      populateReceiptFromCart(cart);
+    });
+
+    // Helper: fill the screen using a cart array
+    function populateReceiptFromCart(cart) {
+      const checkoutTotalEl = document.getElementById("checkout-total");
+      const finalItemsDiv = document.getElementById("final-items");
+      const finalTaxEl = document.getElementById("final-tax");
+      const finalTotalEl = document.getElementById("final-total");
+
+      finalItemsDiv.innerHTML = "";
+
+      let subtotal = 0;
+
+      cart.forEach(item => {
+        // handle either item.quantity or item.qty
+        const qty = item.quantity ?? item.qty ?? 1;
+        const price = item.price ?? 0;
+
+        const lineTotal = qty * price;
+        subtotal += lineTotal;
+
+        const row = document.createElement("div");
+        row.className = "receipt-line";
+        row.innerHTML = `<span>${item.name} x${qty}</span><span>$${lineTotal.toFixed(2)}</span>`;
+        finalItemsDiv.appendChild(row);
+      });
+
+      const taxRate = 0.07;
+      const tax = subtotal * taxRate;
+      const deliveryFee = 0; // fixed free delivery
+
+      const total = subtotal + tax + deliveryFee;
+
+      if (checkoutTotalEl) {
+        checkoutTotalEl.textContent = `Total: $${total.toFixed(2)}`;
+      }
+
+      finalTaxEl.textContent = `$${tax.toFixed(2)}`;
+      finalTotalEl.textContent = `$${total.toFixed(2)}`;
+    }
+
 
     // Validate payment fields when Confirm Payment is clicked
     function validatePayment(event) {
@@ -184,5 +244,5 @@
     }
   </script>
 </body>
-
 </html>
+
