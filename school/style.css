@@ -83,7 +83,7 @@ body {
   min-height: 100vh;
   background:
     linear-gradient(to bottom right, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
-    url("images/for home/pizza.jpg") center/cover no-repeat;
+    url("../images/for home/pizza.jpg") center/cover no-repeat;
   color: white;
   padding: 40px 16px 60px;
   display: flex;
@@ -204,6 +204,7 @@ body {
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
   font-weight: 600;
+  cursor: pointer;
 }
 
 .menu-main {
@@ -249,15 +250,15 @@ body {
 }
 
 .category-pizza {
-  background-image: url("images/pizza.jpg");
+  background-image: url("../images/for home/pizza.jpg");
 }
 
 .category-drinks {
-  background-image: url("images/drinks.jpg");
+  background-image: url("../images/drinks.jpg");
 }
 
 .category-sides {
-  background-image: url("images/sides.jpg");
+  background-image: url("../images/sides.jpg");
 }
 
 /* sections and item cards */
@@ -407,3 +408,76 @@ body {
   background-color: #d3d3d3;
 }
 
+.receipt-nav {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.receipt-nav button {
+  padding: 10px 18px;
+  margin-top: 12px;
+  font-size: 16px;
+}
+
+#pay-button {
+  background-color: #2ecc71;
+  color: #0b0b0b;
+}
+
+#pay-button:hover {
+  background-color: #27ae60;
+}
+
+
+
+/*new code for the cart preview*/
+.cart-preview {
+  position: fixed;
+  top: 27px;
+  right: 35px;
+  width: 280px;
+  background: rgb(38, 38, 38);
+  padding: 15px;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  /* upgraded shadow */
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.35),
+    0 5px 15px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+}
+
+.cart-preview.hidden {
+  display: none;
+}
+
+.cart-preview h3 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+#cart-items {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+#cart-items li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
