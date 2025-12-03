@@ -2,13 +2,23 @@
 <html lang="en">
 <head>
   <title>Mom and Pop's Pizza - Menu</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body class="menu-page">
 
 <header class="menu-header">
   <h1>Menu</h1>
+
+  <!-- hidden div that displays a preview of the cart on the ordering screen-->
+
+  <div id="cart-preview" class="cart-preview hidden">
+    <h3>Your Cart</h3>
+    <ul id="cart-items"></ul>
+    <p class="cart-total">Total: $<span id="cart-total">0.00</span></p>
+    <button onclick="location.href='receipt.html'" class="checkout-btn">Checkout →</button>
+    <button onclick="togglePreview()" class ="checkout-btn">Close</button>
+  </div>
 
   <!-- Marsh please make this cart increment whenever we add items to it!-->
   <div class="cart-display">
@@ -186,4 +196,6 @@
 
 
 </body>
+
+<script src="../js/menu.js"></script>
 </html>
